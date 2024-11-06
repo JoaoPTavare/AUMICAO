@@ -2,52 +2,51 @@ package model;
 
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
 
 @Table(name = "usuario", indexes = {
         @Index(columnList = "id, email", name = "index_user_email", unique = true)
 })
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-
     @Column(name = "name",
     length = 255,
     nullable = false)
     private String name;
-
     @Column(name = "email",
     length = 100,
     nullable = false
     )
     private String email;
-
-
     @Column(name = "senha",
     length = 20,
     nullable = false
     )
     private String passWord;
-
-
     @Column(name = "numeroCelular",
             length = 20,
-            nullable = false
-    )private String numberPhont;
+            nullable = false)
+    private String numberPhont;
+
+    @OneToOne
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    private Adress adress;
 
 
     public User() {
     }
 
 
-    public User(Long id, String name, String email, String passWord, Adress adress, String numberPhont) {
+    public User(Long id, String name, String email, String passWord,  String numberPhont, Adress adress ) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.passWord = passWord;
         this.numberPhont = numberPhont;
+        this.adress = adress;
     }
 
     public Long getId() {
